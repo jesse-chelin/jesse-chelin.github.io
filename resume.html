@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jesse Chelin - Resume 2026</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        :root {
+            --text-primary: #1a1a2e;
+            --text-secondary: #374151;
+            --text-muted: #6b7280;
+            --accent: #c43f6e;
+            --accent-light: #e8a0b8;
+            --border: #e5e7eb;
+            --bg: #ffffff;
+        }
+
+        @page {
+            size: A4;
+            margin: 14mm 16mm 14mm 16mm;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+            font-size: 9.2pt;
+            line-height: 1.45;
+            color: var(--text-secondary);
+            background: var(--bg);
+            max-width: 210mm;
+            margin: 0 auto;
+            padding: 14mm 16mm;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        @media screen {
+            body {
+                padding: 40px 48px;
+                max-width: 820px;
+                box-shadow: 0 0 40px rgba(0,0,0,0.08);
+                margin: 24px auto;
+                border-radius: 4px;
+            }
+        }
+
+        /* Header */
+        .header {
+            margin-bottom: 16px;
+            padding-bottom: 14px;
+            border-bottom: 2.5px solid var(--accent);
+        }
+
+        h1 {
+            font-size: 26pt;
+            font-weight: 800;
+            color: var(--text-primary);
+            letter-spacing: -0.5px;
+            margin-bottom: 6px;
+        }
+
+        .contact {
+            font-size: 9pt;
+            color: var(--text-muted);
+        }
+
+        .contact a {
+            color: var(--text-muted);
+            text-decoration: none;
+        }
+
+        .contact span {
+            margin: 0 6px;
+            color: var(--border);
+        }
+
+        /* Sections */
+        .section {
+            margin-bottom: 14px;
+        }
+
+        .section-title {
+            font-size: 11pt;
+            font-weight: 700;
+            color: var(--accent);
+            text-transform: uppercase;
+            letter-spacing: 0.8px;
+            margin-bottom: 8px;
+            padding-bottom: 4px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .summary {
+            font-size: 9.2pt;
+            line-height: 1.5;
+            color: var(--text-secondary);
+        }
+
+        /* Experience */
+        .role-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+            margin-bottom: 2px;
+        }
+
+        .role-title {
+            font-size: 10pt;
+            font-weight: 700;
+            color: var(--text-primary);
+        }
+
+        .role-date {
+            font-size: 8.5pt;
+            font-weight: 500;
+            color: var(--text-muted);
+            white-space: nowrap;
+        }
+
+        .role-intro {
+            font-size: 9pt;
+            color: var(--text-secondary);
+            margin-bottom: 8px;
+            line-height: 1.45;
+        }
+
+        .sub-heading {
+            font-size: 8.5pt;
+            font-weight: 700;
+            color: var(--text-primary);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-top: 7px;
+            margin-bottom: 3px;
+        }
+
+        ul {
+            padding-left: 14px;
+            margin-bottom: 4px;
+        }
+
+        li {
+            margin-bottom: 2.5px;
+            font-size: 9pt;
+            line-height: 1.4;
+        }
+
+        li strong {
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
+        .role-block {
+            margin-bottom: 12px;
+        }
+
+        .role-block:last-child {
+            margin-bottom: 0;
+        }
+
+        /* Skills */
+        .skills-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 4px;
+        }
+
+        .skill-row {
+            font-size: 9pt;
+            line-height: 1.4;
+        }
+
+        .skill-label {
+            font-weight: 700;
+            color: var(--text-primary);
+        }
+
+        /* Awards */
+        .awards-list {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .awards-list li {
+            font-size: 9pt;
+            margin-bottom: 2px;
+        }
+
+        .press {
+            font-size: 9pt;
+            line-height: 1.45;
+        }
+
+        /* Print */
+        @media print {
+            body {
+                padding: 0;
+                max-width: none;
+                font-size: 9.2pt;
+            }
+
+            .section {
+                page-break-inside: avoid;
+            }
+
+            .role-block {
+                page-break-inside: avoid;
+            }
+
+            a {
+                color: var(--text-muted);
+                text-decoration: none;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="header">
+        <h1>Jesse Chelin</h1>
+        <div class="contact">
+            Melbourne, VIC<span>|</span>0407 776 938<span>|</span><a href="mailto:jesse.chelin@gmail.com">jesse.chelin@gmail.com</a><span>|</span><a href="https://linkedin.com/in/🤖-jesse-chelin-9300056">linkedin.com/in/🤖-jesse-chelin-9300056</a>
+        </div>
+    </div>
+
+    <div class="section">
+        <div class="section-title">Professional Summary</div>
+        <div class="summary">
+            Product leader with 9+ years across payments, SaaS, and e-commerce — including 5 years owning Zeller's payments and POS ecosystem from early-stage to <strong>$2B+ in lifetime GPV</strong>. Built for lean, high-growth environments where you own the full stack of product work — discovery, requirements, design collaboration, delivery, and iteration — without the safety net of large BA, research, or PM teams. Deep fluency across card networks, payment rails, integration architecture, and Australian regulatory frameworks (RBA, AUSTRAC, PCI-DSS). Track record of launching entirely new product lines, scaling multi-partner integration ecosystems, and turning technical complexity into commercial outcomes.
+        </div>
+    </div>
+
+    <div class="section">
+        <div class="section-title">Professional Experience</div>
+
+        <div class="role-block">
+            <div class="role-header">
+                <div class="role-title">Product Lead, Payments | Zeller | Melbourne, VIC</div>
+                <div class="role-date">Jun 2021 – Present</div>
+            </div>
+            <div class="role-intro">
+                End-to-end product ownership for Zeller's core payments and POS software ecosystem — spanning hardware terminals, web dashboard, mobile app, and developer SDKs — serving thousands of Australian SMBs across retail, hospitality, and healthcare. Operating in a lean startup environment with no dedicated BAs or research teams, I own the full product lifecycle: discovery, requirements, technical design collaboration, stakeholder management, delivery, and post-launch iteration.
+            </div>
+
+            <div class="sub-heading">Product & Revenue Impact</div>
+            <ul>
+                <li>Launched <strong>Zeller POS Lite</strong> from zero to <strong>1,000+ merchants</strong> and <strong>$15.4M in GPV</strong>, delivering a fully-integrated POS across dedicated terminal hardware and the Zeller App on merchants' own devices.</li>
+                <li>Directed integration strategy across <strong>1,700+ merchants</strong> and <strong>100 POS systems</strong> via Linkly middleware, direct SDK, and cloud API partnerships — generating <strong>$1.5B in lifetime GPV</strong>.</li>
+                <li>Led the product strategy for <strong>Tap to Pay (CPOC)</strong> on iOS and Android — the first Australian-born fintech to offer contactless smartphone payments, with average transaction values <strong>108% higher</strong> than traditional EFTPOS.</li>
+                <li>Drove delivery of <strong>Least Cost Routing (LCR)</strong> to optimise scheme routing, processing <strong>$10M+ monthly GPV</strong> through the lowest-cost channels and directly improving company margins.</li>
+                <li>Delivered <strong>Pay at Table / Bill at Table</strong> for hospitality (Tevalis, H&L, Impos integrations), accelerating table turnover by up to <strong>73%</strong> in pilot venues.</li>
+            </ul>
+
+            <div class="sub-heading">Reliability & Regulatory Compliance</div>
+            <ul>
+                <li>Championed and drove delivery of <strong>Stand-In Processing</strong> for offline transaction continuity, retaining <strong>$186K+ in GPV</strong> during outages and extending the capability across terminal and consumer device form factors.</li>
+                <li>Drove <strong>per-scheme fee and dynamic surcharging</strong> compliance aligned with RBA Standard No. 3, ensuring merchants can't illegally over-surcharge across card networks.</li>
+                <li>Identified and prioritised <strong>On-Screen Signature Verification</strong> to recover transactions from international cards without chip, directly increasing transaction success rates.</li>
+            </ul>
+
+            <div class="sub-heading">Platform & User Experience</div>
+            <ul>
+                <li>Drove unification of cross-platform experiences across onboarding, invoicing, and reporting — delivering feature parity and a cohesive UX across terminal, web, and mobile.</li>
+                <li>Aligned <strong>Zeller Invoices with Items 2.0</strong>, giving invoice users the same itemisation capabilities as POS, with <strong>75%+ of invoices paid within 24 hours</strong>.</li>
+                <li>Delivered <strong>Transaction Details and Report Summary uplifts</strong> in direct response to merchant feedback, simplifying daily reconciliation and reducing support queries.</li>
+                <li>Shipped <strong>Virtual Terminal</strong> and <strong>Pay by Link</strong> for card-not-present transactions, enabling remote and service-based businesses to accept payments without hardware.</li>
+            </ul>
+
+            <div class="sub-heading">Team & Process Leadership</div>
+            <ul>
+                <li>Recruited, mentored, and managed a <strong>product team of 4</strong>, fostering a culture of ownership, critical thinking, and outcome-oriented product management.</li>
+                <li>Led the product function's migration to <strong>Jira Product Discovery</strong>, establishing a unified roadmap that improved planning velocity and aligned GTM, Risk, and CX.</li>
+                <li>Championed adoption of <strong>Segment</strong> across all front-end platforms, building the business case and driving implementation to enable real-time behavioural analytics for product decisions.</li>
+                <li>Established the team's <strong>OKR process</strong>, creating a foundation for data-driven planning, clear direction, and predictable execution.</li>
+            </ul>
+        </div>
+
+        <div class="role-block">
+            <div class="role-header">
+                <div class="role-title">Product Manager | Whispir | Melbourne, VIC</div>
+                <div class="role-date">Jan 2020 – Jun 2021</div>
+            </div>
+            <ul>
+                <li>Owned the platform roadmap for customer engagement workflows, delivering features that unlocked new industry verticals and streamlined enterprise onboarding.</li>
+                <li>Led an Agile squad to consistently exceed <strong>90% sprint goal achievement</strong>, driving strong alignment across Engineering, GTM, and CX.</li>
+                <li>Coordinated feature release planning across GTM teams, ensuring compliance with industry messaging standards and timely rollout of core platform updates.</li>
+                <li>Contributed to early product–market fit by synthesising qualitative feedback and usage data to inform roadmap decisions for communications APIs.</li>
+            </ul>
+        </div>
+
+        <div class="role-block">
+            <div class="role-header">
+                <div class="role-title">Product Marketing Specialist | Telstra | Melbourne, VIC</div>
+                <div class="role-date">Jan 2018 – Nov 2018</div>
+            </div>
+            <ul>
+                <li>Designed GTM roadmaps, managed releases, and enabled sales and distribution channels for enterprise communication products.</li>
+                <li>Defined and tracked market segmentation, customer success, and adoption metrics.</li>
+                <li>Managed complex stakeholder relationships and influenced senior leaders to resolve cross-functional blockers.</li>
+            </ul>
+        </div>
+
+        <div class="role-block">
+            <div class="role-header">
+                <div class="role-title">Product Marketing Lead | Neto E-Commerce Solutions | Brisbane, QLD</div>
+                <div class="role-date">Dec 2016 – Jan 2018</div>
+            </div>
+            <ul>
+                <li>Owned positioning, messaging, and monetisation strategy for an e-commerce platform serving Australian SMBs.</li>
+                <li>Led customer research programs (quantitative + qualitative), competitive landscape analysis, and early access programs.</li>
+                <li>Co-ordinated go-to-market launches, developed product-focused content (blogs, webinars, demos), and supported sales enablement.</li>
+                <li>Contributed to product strategy, business cases, and optimisation of customer and partner journeys.</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="section">
+        <div class="section-title">Skills</div>
+        <div class="skills-grid">
+            <div class="skill-row"><span class="skill-label">Product Leadership:</span> Product Vision & Strategy, Team Building & Mentoring, OKR Planning, Commercial Acumen, Go-to-Market Strategy, B2B & B2C Product Management</div>
+            <div class="skill-row"><span class="skill-label">Product Management:</span> Roadmap Ownership, Agile/Scrum (SAFe® 5), Product-Led Growth, Experimentation & Data Analysis, User Research, Stakeholder Management, Prioritisation Frameworks (RICE, Kano)</div>
+            <div class="skill-row"><span class="skill-label">Domain Expertise:</span> Payments Architecture (Visa, Mastercard, eftpos, AMEX — card-present & card-not-present), Payment Rails (NPP, BECS, BPAY), Regulatory Compliance (RBA, AUSTRAC, PCI-DSS), Surcharging & Scheme Fee Strategy, Integration Ecosystem Management (SDKs, APIs, POS middleware)</div>
+            <div class="skill-row"><span class="skill-label">Technical & Analytics:</span> API-First Strategy, System Design, Atlassian Suite (Jira, Confluence, Jira Product Discovery), Segment, Mixpanel, Power BI, Figma, AI-Assisted Workflows</div>
+        </div>
+    </div>
+
+    <div class="section">
+        <div class="section-title">Awards & Certifications</div>
+        <ul class="awards-list">
+            <li><strong>Employee of the Year</strong> — 2017 & 2016 | Neto eCommerce</li>
+            <li><strong>Certified SAFe® 5 Agilist</strong> | Scaled Agile, Inc.</li>
+        </ul>
+    </div>
+
+    <div class="section">
+        <div class="section-title">Press & Media</div>
+        <div class="press">
+            Products I've led have been featured in <strong>The Australian</strong>, <strong>IBS Intelligence</strong>, <strong>Australian Hotelier</strong>, <strong>Business Builders</strong>, and <strong>EFTM</strong>, covering Zeller Terminal 2, Tap to Pay, and the Developer SDK suite.
+        </div>
+    </div>
+
+</body>
+</html>

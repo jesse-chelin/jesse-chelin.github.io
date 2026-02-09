@@ -1,0 +1,1527 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>Jesse Chelin — Product Lead, Payments</title>
+    <meta name="description" content="Product leader with 9+ years across payments, SaaS, and e-commerce. Currently leading Payments at Zeller.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600;1,700&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
+    <style>
+        /* ================================================
+           TOKENS
+           ================================================ */
+        :root {
+            --font-serif: 'Playfair Display', Georgia, serif;
+            --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+            --font-mono: 'JetBrains Mono', 'Fira Code', monospace;
+            --transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            --radius-sm: 4px;
+            --radius-md: 8px;
+            --radius-lg: 12px;
+            --radius-pill: 100px;
+            --content-max: 960px;
+        }
+        [data-theme="dark"] {
+            --bg-0: #0a0a0a; --bg-1: #111111; --bg-2: #1a1a1a; --bg-3: #0e0e0e;
+            --accent: #2DD4A8; --accent-light: #5EE9C5;
+            --accent-dim: rgba(45, 212, 168, 0.10); --accent-glow: rgba(45, 212, 168, 0.18);
+            --text-0: #f5f4f0; --text-1: #a8a8a8; --text-2: #666666;
+            --stroke: #1e1e1e; --stroke-hover: #333333;
+            --shadow-soft: 0 1px 3px rgba(0,0,0,0.4), 0 8px 32px rgba(0,0,0,0.3);
+            --shadow-card: 0 1px 2px rgba(0,0,0,0.3);
+            --shadow-card-hover: 0 8px 32px rgba(0,0,0,0.5);
+            --overlay: rgba(10, 10, 10, 0.82); --overlay-strong: rgba(10, 10, 10, 0.92);
+            --grid-line: rgba(255,255,255,0.04);
+        }
+        [data-theme="light"] {
+            --bg-0: #f7f8fb; --bg-1: #ffffff; --bg-2: #f0f1f4; --bg-3: #f4f5f8;
+            --accent: #0FA68A; --accent-light: #1DC4A0;
+            --accent-dim: rgba(15, 166, 138, 0.07); --accent-glow: rgba(15, 166, 138, 0.12);
+            --text-0: #1d2533; --text-1: #3a4252; --text-2: #6b7280;
+            --stroke: #e5e7eb; --stroke-hover: #d1d5db;
+            --shadow-soft: 0 1px 3px rgba(0,0,0,0.06), 0 8px 32px rgba(0,0,0,0.06);
+            --shadow-card: 0 1px 2px rgba(0,0,0,0.04);
+            --shadow-card-hover: 0 8px 32px rgba(0,0,0,0.1);
+            --overlay: rgba(247, 248, 251, 0.85); --overlay-strong: rgba(247, 248, 251, 0.94);
+            --grid-line: rgba(0,0,0,0.05);
+        }
+
+        /* ================================================
+           RESET
+           ================================================ */
+        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
+        body {
+            font-family: var(--font-sans); font-size: 16px; line-height: 1.6;
+            color: var(--text-1); background: var(--bg-0);
+            -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale;
+            transition: background var(--transition), color var(--transition);
+            overflow-x: hidden;
+        }
+        a { color: var(--accent-light); text-decoration: none; transition: color var(--transition); }
+        a:hover { color: var(--accent); }
+        strong { color: var(--text-0); font-weight: 600; }
+
+        @media (min-width: 769px) { html { scroll-snap-type: y mandatory; } }
+
+        /* ================================================
+           SECTIONS + GRID + GLOW
+           ================================================ */
+        .snap-section {
+            min-height: 100vh; min-height: 100dvh;
+            scroll-snap-align: start; position: relative;
+            display: flex; flex-direction: column; justify-content: center;
+            padding: 96px 48px; overflow: hidden;
+            transition: background var(--transition);
+        }
+        .snap-section__inner {
+            max-width: var(--content-max); margin: 0 auto; width: 100%;
+            position: relative; z-index: 2;
+        }
+
+        /* Animated grid lines */
+        .snap-section::before {
+            content: ''; position: absolute; inset: -64px;
+            background-image:
+                linear-gradient(var(--grid-line) 1px, transparent 1px),
+                linear-gradient(90deg, var(--grid-line) 1px, transparent 1px);
+            background-size: 64px 64px;
+            pointer-events: none; z-index: 0;
+            animation: gridDrift 40s linear infinite;
+        }
+        @keyframes gridDrift {
+            0% { transform: translate(0, 0); }
+            100% { transform: translate(64px, 64px); }
+        }
+
+        /* Floating gradient glow — intentionally visible */
+        .ambient-glow {
+            position: absolute; top: -300px; left: -300px;
+            width: calc(100% + 600px); height: calc(100% + 600px);
+            background: radial-gradient(ellipse 700px 500px at 40% 50%, var(--accent-glow) 0%, transparent 70%);
+            animation: glowFloat 16s ease-in-out infinite alternate;
+            pointer-events: none; z-index: 0;
+        }
+        @keyframes glowFloat {
+            0% { transform: translate(0, 0) scale(1); opacity: 0.7; }
+            25% { transform: translate(160px, 60px) scale(1.1); opacity: 1; }
+            50% { transform: translate(-80px, 140px) scale(0.95); opacity: 0.8; }
+            75% { transform: translate(100px, -60px) scale(1.05); opacity: 1; }
+            100% { transform: translate(-40px, 80px) scale(1); opacity: 0.9; }
+        }
+
+        /* ================================================
+           TYPOGRAPHY
+           ================================================ */
+        .kicker {
+            font-family: var(--font-mono); font-size: 11px; font-weight: 500;
+            color: var(--accent); text-transform: uppercase; letter-spacing: 2px;
+            margin-bottom: 16px; display: flex; align-items: center; gap: 12px;
+        }
+        .kicker::after {
+            content: ''; height: 1px; background: var(--accent); opacity: 0.4;
+            width: 0; transition: width 0.8s ease 0.3s;
+        }
+        .kicker.visible::after { width: 40px; }
+
+        .section-heading {
+            font-family: var(--font-serif); font-size: 44px; font-weight: 400;
+            line-height: 1.12; color: var(--text-0); margin-bottom: 24px; letter-spacing: -0.5px;
+        }
+        .section-heading em { font-style: italic; color: var(--accent); }
+
+        .section-lead {
+            font-size: 16px; line-height: 1.75; color: var(--text-1); max-width: 640px;
+        }
+
+        /* ================================================
+           THEME TOGGLE + DOWNLOAD FAB
+           ================================================ */
+        .theme-toggle {
+            position: fixed; top: 16px; right: 16px; z-index: 200;
+            width: 44px; height: 44px; border-radius: 50%;
+            border: 1px solid var(--stroke); background: var(--bg-1);
+            color: var(--text-1); cursor: pointer;
+            display: flex; align-items: center; justify-content: center;
+            transition: all var(--transition); box-shadow: var(--shadow-card);
+            -webkit-tap-highlight-color: transparent;
+        }
+        .theme-toggle:hover { border-color: var(--accent); color: var(--accent); }
+        .theme-toggle .icon-sun, .theme-toggle .icon-moon { width: 18px; height: 18px; }
+        [data-theme="dark"] .icon-sun { display: block; }
+        [data-theme="dark"] .icon-moon { display: none; }
+        [data-theme="light"] .icon-sun { display: none; }
+        [data-theme="light"] .icon-moon { display: block; }
+
+        .download-fab {
+            position: fixed; bottom: 24px; right: 24px; z-index: 200;
+            display: inline-flex; align-items: center; gap: 8px;
+            padding: 12px 20px; background: var(--accent); color: #0a0a0a;
+            font-family: var(--font-mono); font-size: 12px; font-weight: 600;
+            letter-spacing: 0.08em; text-transform: uppercase;
+            border: none; border-radius: var(--radius-pill); cursor: pointer;
+            box-shadow: 0 4px 16px rgba(45, 212, 168, 0.3);
+            transition: all var(--transition); text-decoration: none;
+            -webkit-tap-highlight-color: transparent;
+        }
+        .download-fab:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(45, 212, 168, 0.4); color: #0a0a0a; }
+        .download-fab i { width: 16px; height: 16px; }
+
+        /* ================================================
+           NAV DOTS
+           ================================================ */
+        .nav-dots {
+            position: fixed; right: 20px; top: 50%; transform: translateY(-50%);
+            z-index: 200; display: flex; flex-direction: column; gap: 12px;
+        }
+        .nav-dot {
+            width: 8px; height: 8px; border-radius: 50%;
+            background: var(--text-2); border: none; cursor: pointer;
+            transition: all var(--transition); padding: 0; opacity: 0.35;
+            -webkit-tap-highlight-color: transparent;
+        }
+        .nav-dot:hover { opacity: 0.7; background: var(--accent); }
+        .nav-dot.active { background: var(--accent); opacity: 1; transform: scale(1.5); }
+
+        /* ================================================
+           PILLS & BADGES
+           ================================================ */
+        .pill {
+            display: inline-flex; align-items: center; gap: 6px;
+            padding: 8px 16px; border: 1px solid var(--stroke);
+            border-radius: var(--radius-pill); font-size: 13px;
+            color: var(--text-1); background: var(--bg-1);
+            cursor: pointer; transition: all var(--transition);
+            text-decoration: none; position: relative;
+            -webkit-tap-highlight-color: transparent; min-height: 40px;
+        }
+        .pill:hover { border-color: var(--accent); color: var(--accent-light); background: var(--accent-dim); }
+        .pill i { width: 14px; height: 14px; flex-shrink: 0; }
+        .pill .copy-toast {
+            position: absolute; top: -30px; left: 50%; transform: translateX(-50%);
+            background: var(--accent); color: #0a0a0a; font-size: 11px;
+            padding: 3px 10px; border-radius: var(--radius-sm);
+            white-space: nowrap; opacity: 0; pointer-events: none; transition: opacity 0.2s;
+        }
+        .pill .copy-toast.show { opacity: 1; }
+
+        .badge {
+            display: inline-flex; align-items: center; gap: 6px;
+            padding: 5px 14px; font-family: var(--font-mono);
+            font-size: 11px; font-weight: 500; text-transform: uppercase;
+            letter-spacing: 0.1em; color: var(--accent); border: 1px solid var(--accent);
+        }
+
+        /* ================================================
+           1. HERO
+           ================================================ */
+        .hero-layout { display: grid; grid-template-columns: 1fr 1fr; gap: 48px; align-items: center; }
+        .hero-left { display: flex; flex-direction: column; gap: 4px; }
+
+        .hero-profile { display: flex; align-items: center; gap: 24px; margin-bottom: 16px; }
+        .hero-avatar {
+            width: 120px; height: 120px; border-radius: 50%; object-fit: cover;
+            border: 3px solid var(--accent); flex-shrink: 0;
+            animation: ringPulse 4s ease-in-out infinite;
+        }
+        @keyframes ringPulse {
+            0%, 100% { box-shadow: 0 0 0 0 var(--accent-dim), 0 0 24px var(--accent-dim); }
+            50% { box-shadow: 0 0 0 8px transparent, 0 0 32px var(--accent-dim); }
+        }
+        .hero-name {
+            font-family: var(--font-serif); font-size: 52px; font-weight: 700;
+            color: var(--text-0); letter-spacing: -1px; line-height: 1.05;
+        }
+        .hero-title {
+            font-family: var(--font-sans); font-size: 16px; font-weight: 500;
+            color: var(--accent); letter-spacing: 0.5px; margin-bottom: 16px;
+        }
+        .hero-summary { font-size: 15px; line-height: 1.75; color: var(--text-1); margin-bottom: 24px; }
+        .hero-contact { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 16px; }
+        .hero-badges { display: flex; flex-wrap: wrap; gap: 10px; }
+
+        /* Hero terminal image */
+        .hero-image { display: flex; align-items: center; justify-content: center; }
+        .hero-terminal {
+            max-height: 60vh; max-width: 100%; object-fit: contain;
+            filter: drop-shadow(0 20px 60px rgba(0,0,0,0.4));
+            animation: heroFloat 6s ease-in-out infinite;
+        }
+        [data-theme="light"] .hero-terminal { filter: drop-shadow(0 20px 60px rgba(0,0,0,0.1)); }
+        @keyframes heroFloat {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-12px); }
+        }
+
+        /* ================================================
+           2. JOURNEY + MILESTONE MARQUEE
+           ================================================ */
+        .growth-chart { margin-top: 32px; }
+        .growth-bar-row { display: flex; align-items: center; gap: 16px; margin-bottom: 16px; }
+        .growth-bar-row--zeller { margin-bottom: 60px; }
+        .growth-bar-label { width: 120px; flex-shrink: 0; text-align: right; }
+        .growth-bar-label__role { font-size: 13px; font-weight: 600; color: var(--text-0); }
+        .growth-bar-label__company { font-size: 11px; color: var(--text-2); }
+        .growth-bar-track { flex: 1; height: 32px; background: var(--bg-2); border-radius: var(--radius-sm); position: relative; overflow: visible; }
+        .growth-bar-fill {
+            height: 100%; background: var(--stroke-hover); border-radius: var(--radius-sm);
+            transition: width 1s ease; position: relative;
+        }
+        .growth-bar-fill--accent { background: linear-gradient(90deg, var(--accent-dim), var(--accent)); }
+        .growth-bar-time {
+            position: absolute; right: 8px; top: 50%; transform: translateY(-50%);
+            font-family: var(--font-mono); font-size: 11px; color: var(--text-0); white-space: nowrap;
+        }
+
+        /* Milestone marquee — attached below Zeller bar */
+        .milestone-marquee {
+            position: absolute; top: calc(100% + 4px); left: 0;
+            width: 57%; overflow: hidden; padding-top: 6px;
+            border-top: 1px dashed var(--accent); opacity: 0.85;
+            mask-image: linear-gradient(90deg, transparent, black 4%, black 96%, transparent);
+            -webkit-mask-image: linear-gradient(90deg, transparent, black 4%, black 96%, transparent);
+        }
+        .milestone-marquee-inner {
+            display: flex; gap: 6px; width: max-content;
+            animation: milestoneScroll 40s linear infinite;
+        }
+        @keyframes milestoneScroll {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-50%); }
+        }
+        .milestone-chip {
+            display: inline-flex; flex-direction: column; align-items: center; gap: 1px;
+            padding: 3px 8px; border: 1px solid var(--accent); border-radius: var(--radius-pill);
+            font-family: var(--font-mono); font-size: 9px; font-weight: 500;
+            color: var(--accent); white-space: nowrap; flex-shrink: 0;
+        }
+        .milestone-chip small { font-size: 7px; color: var(--text-2); font-weight: 400; }
+
+        .growth-callout {
+            margin-top: 24px; padding: 20px 24px;
+            border: 1px solid var(--accent); border-radius: var(--radius-md);
+            background: var(--accent-dim);
+            display: flex; align-items: center; gap: 16px; flex-wrap: wrap;
+        }
+        .growth-callout__number { font-family: var(--font-serif); font-size: 40px; font-style: italic; color: var(--accent); line-height: 1; }
+        .growth-callout__text { font-size: 14px; color: var(--text-1); line-height: 1.5; }
+
+        /* ================================================
+           3. WAYS OF WORKING
+           ================================================ */
+        .wow-flow {
+            display: flex; align-items: flex-start; gap: 8px; margin-top: 40px; flex-wrap: wrap;
+        }
+        .wow-step {
+            flex: 1; min-width: 150px; padding: 20px 16px;
+            border: 1px solid var(--stroke); border-radius: var(--radius-md);
+            background: var(--bg-1); text-align: center;
+            transition: all var(--transition);
+        }
+        .wow-step:hover { border-color: var(--accent); transform: translateY(-3px); box-shadow: var(--shadow-card-hover); }
+        .wow-step__icon { color: var(--accent); margin-bottom: 10px; }
+        .wow-step__icon i { width: 24px; height: 24px; }
+        .wow-step__title { font-family: var(--font-mono); font-size: 12px; font-weight: 600; color: var(--accent); text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 6px; }
+        .wow-step__text { font-size: 12px; color: var(--text-1); line-height: 1.55; }
+        .wow-arrow { color: var(--accent); font-size: 18px; align-self: center; opacity: 0.4; flex-shrink: 0; padding-top: 10px; }
+
+        .wow-principles { margin-top: 36px; display: flex; flex-direction: column; gap: 12px; }
+        .wow-principle {
+            display: flex; align-items: flex-start; gap: 12px;
+            font-size: 14px; color: var(--text-1); line-height: 1.6;
+        }
+        .wow-principle__mark {
+            flex-shrink: 0; width: 20px; height: 20px; margin-top: 2px;
+            border-radius: 50%; border: 1.5px solid var(--accent);
+            display: flex; align-items: center; justify-content: center;
+            color: var(--accent);
+        }
+        .wow-principle__mark i { width: 12px; height: 12px; }
+
+        /* ================================================
+           4. PRODUCTS + FEATURE TILES
+           ================================================ */
+        .products-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-top: 32px; }
+        .product-card {
+            border: 1px solid var(--stroke); border-radius: var(--radius-md);
+            overflow: hidden; background: var(--bg-1); transition: all var(--transition);
+            position: relative;
+        }
+        .product-card:hover { border-color: var(--accent); transform: translateY(-3px); box-shadow: var(--shadow-card-hover); }
+        .product-card__image-wrap { overflow: hidden; height: 160px; }
+        .product-card__image {
+            width: 100%; height: 160px; object-fit: cover; display: block;
+            transition: transform 0.5s ease;
+        }
+        .product-card:hover .product-card__image { transform: scale(1.04); }
+        .product-card__body { padding: 16px; }
+        .product-card__title { font-family: var(--font-serif); font-size: 16px; font-weight: 600; color: var(--text-0); margin-bottom: 6px; }
+        .product-card__desc { font-size: 12px; line-height: 1.55; color: var(--text-1); margin-bottom: 10px; }
+        .product-card__stat { font-family: var(--font-mono); font-size: 11px; color: var(--accent); font-weight: 500; }
+
+        /* Shimmer on hover */
+        .product-card::after {
+            content: ''; position: absolute; top: 0; left: -100%; width: 100%; height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.03), transparent);
+            transition: left 0.6s ease; pointer-events: none;
+        }
+        .product-card:hover::after { left: 100%; }
+
+        /* SDK logo scroll for Dev Suite card */
+        .product-card__sdk-logos {
+            background: var(--bg-2); display: flex; align-items: center;
+            justify-content: center; padding: 0;
+        }
+        .sdk-scroll { width: 100%; overflow: hidden;
+            mask-image: linear-gradient(90deg, transparent, black 10%, black 90%, transparent);
+            -webkit-mask-image: linear-gradient(90deg, transparent, black 10%, black 90%, transparent);
+        }
+        .sdk-scroll-track {
+            display: flex; align-items: center; gap: 32px;
+            width: max-content; animation: sdkScroll 18s linear infinite;
+            padding: 0 16px;
+        }
+        .sdk-logo { width: 44px; height: 44px; opacity: 0.4; transition: opacity 0.3s; }
+        .product-card:hover .sdk-logo { opacity: 0.7; }
+        @keyframes sdkScroll {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-50%); }
+        }
+
+        /* Feature tile grid */
+        .feature-grid { margin-top: 40px; }
+        .feature-grid__header {
+            display: flex; align-items: baseline; gap: 12px; margin-bottom: 20px;
+        }
+        .feature-grid__count {
+            font-family: var(--font-serif); font-size: 48px; font-style: italic;
+            color: var(--accent); line-height: 1;
+        }
+        .feature-grid__label { font-size: 14px; color: var(--text-1); }
+        .feature-grid__tiles {
+            display: flex; flex-wrap: wrap; gap: 5px;
+            padding: 16px; border: 1px solid var(--stroke); border-radius: var(--radius-md);
+            background: var(--bg-1); position: relative;
+        }
+        .feature-tile {
+            border-radius: 4px; cursor: pointer; position: relative;
+            display: flex; align-items: center; justify-content: center;
+            transition: transform 0.2s, box-shadow 0.2s;
+            opacity: 0; line-height: 1;
+        }
+        .feature-tile--t1 {
+            width: 32px; height: 32px; font-size: 16px;
+            background: var(--accent-dim); border: 1px solid var(--accent);
+            animation: tileIn 0.3s ease forwards;
+        }
+        .feature-tile--t2 {
+            width: 28px; height: 28px; font-size: 13px;
+            background: var(--bg-2); border: 1px solid transparent;
+            animation: tileIn2 0.3s ease forwards;
+        }
+        .feature-tile--t3 {
+            width: 24px; height: 24px; font-size: 11px;
+            background: var(--bg-2); border: 1px solid transparent;
+            animation: tileIn3 0.3s ease forwards;
+        }
+        @keyframes tileIn { from { opacity:0; transform:scale(0.5); } to { opacity:1; transform:scale(1); } }
+        @keyframes tileIn2 { from { opacity:0; transform:scale(0.5); } to { opacity:0.7; transform:scale(1); } }
+        @keyframes tileIn3 { from { opacity:0; transform:scale(0.5); } to { opacity:0.45; transform:scale(1); } }
+
+        .feature-tile:hover, .feature-tile.active {
+            transform: scale(1.4) !important; z-index: 10; opacity: 1 !important;
+            border-color: var(--accent); background: var(--accent-dim);
+            box-shadow: 0 4px 12px rgba(45, 212, 168, 0.2);
+        }
+        /* Tooltip */
+        .feature-tile::after {
+            content: attr(data-name); position: absolute; bottom: calc(100% + 8px);
+            left: 50%; transform: translateX(-50%);
+            background: var(--bg-1); border: 1px solid var(--accent); color: var(--text-0);
+            font-family: var(--font-mono); font-size: 10px; padding: 4px 10px;
+            border-radius: var(--radius-sm); white-space: nowrap;
+            pointer-events: none; opacity: 0; transition: opacity 0.15s; z-index: 20;
+        }
+        .feature-tile:hover::after, .feature-tile.active::after { opacity: 1; }
+
+        /* Selected feature label — mobile friendly */
+        .feature-grid__selected {
+            font-family: var(--font-mono); font-size: 12px; color: var(--accent);
+            min-height: 28px; padding: 6px 0; text-align: center;
+            opacity: 0; transition: opacity 0.2s;
+        }
+        .feature-grid__selected.show { opacity: 1; }
+
+        .feature-grid__legend {
+            display: flex; gap: 20px; margin-top: 8px; font-family: var(--font-mono); font-size: 10px; color: var(--text-2);
+        }
+        .feature-grid__legend span { display: flex; align-items: center; gap: 6px; }
+        .legend-swatch { display: inline-block; border-radius: 3px; }
+        .legend-swatch--major { width: 14px; height: 14px; background: var(--accent-dim); border: 1px solid var(--accent); }
+        .legend-swatch--feature { width: 12px; height: 12px; background: var(--bg-2); opacity: 0.7; }
+        .legend-swatch--enh { width: 10px; height: 10px; background: var(--bg-2); opacity: 0.45; }
+
+        /* ================================================
+           5. ECOSYSTEM
+           ================================================ */
+        .eco-row {
+            display: flex; align-items: center; justify-content: center;
+            gap: 12px; margin: 32px 0; flex-wrap: wrap;
+        }
+        .eco-box {
+            border: 1px solid var(--stroke); padding: 16px 20px; text-align: center;
+            min-width: 120px; background: var(--bg-1); transition: all var(--transition);
+            display: flex; flex-direction: column; align-items: center; gap: 6px;
+        }
+        .eco-box:hover { border-color: var(--accent); background: var(--accent-dim); }
+        .eco-box__icon { color: var(--accent); width: 20px; height: 20px; }
+        .eco-box__label { font-family: var(--font-mono); font-size: 13px; color: var(--accent-light); font-weight: 500; }
+        .eco-box__sub { font-size: 10px; color: var(--text-2); text-transform: uppercase; letter-spacing: 0.1em; }
+        .eco-plus { color: var(--accent); font-size: 18px; font-weight: 300; }
+
+        .cap-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; margin-top: 24px; }
+        .cap-card { padding: 16px; border: 1px solid var(--stroke); background: var(--bg-1); transition: all var(--transition); border-radius: var(--radius-sm); }
+        .cap-card:hover { border-color: var(--accent); }
+        .cap-card__title { font-size: 13px; font-weight: 600; color: var(--text-0); margin-bottom: 4px; }
+        .cap-card__text { font-size: 12px; color: var(--text-2); line-height: 1.5; }
+
+        .depth-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 48px; margin-top: 40px; align-items: start; }
+        .depth-grid h3 { font-family: var(--font-serif); font-size: 20px; color: var(--text-0); margin-bottom: 14px; }
+        .depth-mini-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+
+        /* ================================================
+           6. EXPERIENCE
+           ================================================ */
+        .experience-section {
+            scroll-snap-align: start; padding: 96px 48px;
+            background: var(--bg-3); position: relative;
+            transition: background var(--transition);
+        }
+        .experience-section::before {
+            content: ''; position: absolute; inset: -64px;
+            background-image:
+                linear-gradient(var(--grid-line) 1px, transparent 1px),
+                linear-gradient(90deg, var(--grid-line) 1px, transparent 1px);
+            background-size: 64px 64px; pointer-events: none;
+            animation: gridDrift 40s linear infinite;
+        }
+        .experience-section .snap-section__inner { position: relative; z-index: 2; }
+
+        .role-block { margin-bottom: 48px; }
+        .role-block:last-child { margin-bottom: 0; }
+        .role-header { display: flex; justify-content: space-between; align-items: baseline; gap: 16px; margin-bottom: 4px; flex-wrap: wrap; }
+        .role-title-line { font-size: 17px; font-weight: 700; color: var(--text-0); }
+        .role-title-line .company { color: var(--accent); }
+        .role-date { font-family: var(--font-mono); font-size: 13px; color: var(--text-2); white-space: nowrap; }
+        .role-location { font-size: 13px; color: var(--text-2); margin-bottom: 12px; }
+        .role-intro { font-size: 14px; line-height: 1.7; color: var(--text-1); margin-bottom: 20px; max-width: 800px; }
+        .role-sub-heading { font-family: var(--font-mono); font-size: 11px; font-weight: 500; text-transform: uppercase; letter-spacing: 1.5px; color: var(--accent); margin-top: 20px; margin-bottom: 10px; }
+        .role-list { list-style: none; padding: 0; }
+        .role-list li { position: relative; padding-left: 16px; margin-bottom: 7px; font-size: 13px; line-height: 1.65; color: var(--text-1); }
+        .role-list li::before { content: ''; position: absolute; left: 0; top: 9px; width: 4px; height: 4px; border-radius: 50%; background: var(--accent); }
+        .role-list li strong { color: var(--text-0); font-weight: 600; }
+
+        /* ================================================
+           7. SKILLS + MEDIA
+           ================================================ */
+        .split-layout { display: grid; grid-template-columns: 1fr 1fr; gap: 48px; align-items: start; }
+        .skills-category { margin-bottom: 24px; }
+        .skills-category:last-child { margin-bottom: 0; }
+        .skills-category__label {
+            font-family: var(--font-mono); font-size: 11px; font-weight: 500;
+            text-transform: uppercase; letter-spacing: 1.5px; color: var(--accent);
+            margin-bottom: 10px; display: flex; align-items: center; gap: 8px;
+        }
+        .skills-category__label i { width: 14px; height: 14px; }
+        .skills-pills { display: flex; flex-wrap: wrap; gap: 7px; }
+        .skill-pill {
+            display: inline-block; padding: 5px 12px; border: 1px solid var(--stroke);
+            border-radius: var(--radius-pill); font-size: 12px; color: var(--text-1);
+            transition: all var(--transition); white-space: nowrap;
+        }
+        .skill-pill:hover { border-color: var(--accent); color: var(--accent-light); background: var(--accent-dim); }
+
+        .media-card {
+            padding: 18px; border: 1px solid var(--stroke); border-radius: var(--radius-md);
+            background: var(--bg-1); transition: all var(--transition);
+            display: flex; align-items: flex-start; gap: 14px; margin-bottom: 12px;
+        }
+        .media-card:last-child { margin-bottom: 0; }
+        .media-card:hover { border-color: var(--accent); transform: translateY(-2px); box-shadow: var(--shadow-card-hover); }
+        .media-card__icon {
+            flex-shrink: 0; width: 36px; height: 36px; border-radius: var(--radius-sm);
+            background: var(--accent-dim); display: flex; align-items: center; justify-content: center; color: var(--accent);
+        }
+        .media-card__icon i { width: 18px; height: 18px; }
+        .media-card__quote { font-size: 15px; color: var(--text-0); line-height: 1.5; margin-bottom: 6px; font-weight: 500; }
+        .media-card__source { font-family: var(--font-mono); font-size: 11px; color: var(--text-2); letter-spacing: 0.05em; }
+
+        .awards-row { display: flex; gap: 20px; margin-top: 24px; flex-wrap: wrap; }
+        .award-item { display: flex; align-items: center; gap: 10px; }
+        .award-item__icon { width: 28px; height: 28px; border-radius: var(--radius-sm); background: var(--accent-dim); display: flex; align-items: center; justify-content: center; color: var(--accent); flex-shrink: 0; }
+        .award-item__icon i { width: 14px; height: 14px; }
+        .award-item__text { font-size: 13px; color: var(--text-1); }
+        .award-item__text strong { font-weight: 600; }
+        .award-item__meta { font-family: var(--font-mono); font-size: 10px; color: var(--text-2); }
+
+        /* ================================================
+           8. CONTACT
+           ================================================ */
+        .contact-center { text-align: center; display: flex; flex-direction: column; align-items: center; }
+        .contact-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 40px; margin-top: 40px; width: 100%; max-width: 640px; }
+        .contact-item { text-align: center; }
+        .contact-item__label { font-family: var(--font-mono); font-size: 11px; color: var(--text-2); text-transform: uppercase; letter-spacing: 0.12em; margin-bottom: 6px; }
+        .contact-item__value { font-size: 14px; color: var(--text-1); }
+        .contact-item__value a { color: var(--accent); }
+
+        /* ================================================
+           SCROLL ANIMATIONS
+           ================================================ */
+        .reveal-on-scroll { opacity: 0; transform: translateY(20px); transition: opacity 0.5s ease, transform 0.5s ease; }
+        .reveal-on-scroll.visible { opacity: 1; transform: translateY(0); }
+        .reveal-on-scroll:nth-child(2) { transition-delay: 0.06s; }
+        .reveal-on-scroll:nth-child(3) { transition-delay: 0.12s; }
+        .reveal-on-scroll:nth-child(4) { transition-delay: 0.18s; }
+        .reveal-on-scroll:nth-child(5) { transition-delay: 0.24s; }
+        .reveal-on-scroll:nth-child(6) { transition-delay: 0.30s; }
+
+        /* ================================================
+           RESPONSIVE — TABLET
+           ================================================ */
+        @media (max-width: 1024px) {
+            .hero-layout { grid-template-columns: 1fr; gap: 32px; }
+            .hero-image { display: none; }
+            .section-heading { font-size: 36px; }
+            .products-grid { grid-template-columns: repeat(2, 1fr); }
+            .cap-grid { grid-template-columns: repeat(2, 1fr); }
+            .depth-grid { grid-template-columns: 1fr; gap: 32px; }
+            .split-layout { grid-template-columns: 1fr; gap: 32px; }
+            .contact-grid { grid-template-columns: 1fr; gap: 20px; }
+            .wow-arrow { display: none; }
+            .milestone-marquee { width: 80% !important; }
+        }
+
+        /* ================================================
+           RESPONSIVE — MOBILE
+           ================================================ */
+        @media (max-width: 768px) {
+            .snap-section { padding: 48px 20px; min-height: auto; }
+            .experience-section { padding: 48px 20px; }
+            .hero-name { font-size: 36px; }
+            .hero-avatar { width: 96px; height: 96px; }
+            .hero-profile { flex-direction: column; text-align: center; }
+            .hero-contact { justify-content: center; }
+            .hero-badges { justify-content: center; }
+            .hero-title { font-size: 14px; }
+            .section-heading { font-size: 28px; }
+            .section-lead { font-size: 14px; }
+            .products-grid { grid-template-columns: 1fr; }
+            .product-card__image-wrap { height: 140px; }
+            .product-card__image { height: 140px; }
+            .cap-grid { grid-template-columns: 1fr; }
+            .eco-row { gap: 8px; }
+            .eco-box { min-width: 90px; padding: 12px 14px; }
+            .eco-plus { display: none; }
+            .depth-mini-grid { grid-template-columns: 1fr; }
+            .nav-dots { display: none; }
+            .download-fab { bottom: 16px; right: 16px; padding: 10px 16px; font-size: 11px; }
+            .growth-bar-label { width: 80px; }
+            .growth-bar-label__role { font-size: 11px; }
+            .growth-bar-label__company { font-size: 10px; }
+            .growth-bar-track { height: 28px; }
+            .growth-bar-time { font-size: 10px; }
+            .growth-callout { flex-direction: column; text-align: center; }
+            .growth-callout__number { font-size: 32px; }
+            .role-header { flex-direction: column; gap: 2px; }
+            .role-list li { font-size: 13px; }
+            .hero-badges { gap: 6px; }
+            .badge { font-size: 10px; padding: 4px 10px; }
+            .pill { font-size: 12px; padding: 7px 12px; min-height: 36px; }
+            .hero-contact { gap: 6px; }
+            .awards-row { flex-direction: column; gap: 12px; }
+            .media-card { padding: 14px; }
+            .media-card__quote { font-size: 14px; }
+            .wow-flow { flex-direction: column; }
+            .wow-step { min-width: auto; }
+            .feature-tile--t1 { width: 28px; height: 28px; font-size: 14px; }
+            .feature-tile--t2 { width: 24px; height: 24px; font-size: 12px; }
+            .feature-tile--t3 { width: 22px; height: 22px; font-size: 10px; }
+            .feature-grid__tiles { gap: 4px; padding: 12px; }
+            .feature-grid__count { font-size: 36px; }
+            .milestone-marquee { width: 100% !important; }
+            .growth-bar-row--zeller { margin-bottom: 48px; }
+            .milestone-chip { font-size: 8px; padding: 2px 6px; }
+        }
+
+        /* ================================================
+           RESPONSIVE — SMALL MOBILE
+           ================================================ */
+        @media (max-width: 400px) {
+            .snap-section { padding: 36px 16px; }
+            .experience-section { padding: 36px 16px; }
+            .hero-name { font-size: 28px; }
+            .section-heading { font-size: 24px; }
+            .hero-avatar { width: 80px; height: 80px; }
+        }
+
+        /* ================================================
+           PRINT
+           ================================================ */
+        @media print {
+            html { scroll-snap-type: none !important; font-size: 10px; }
+            :root, [data-theme="dark"], [data-theme="light"] {
+                --bg-0: #fff !important; --bg-1: #fff !important; --bg-2: #f5f5f5 !important; --bg-3: #fafafa !important;
+                --accent: #0D9488 !important; --accent-light: #0D9488 !important; --accent-dim: rgba(13,148,136,0.05) !important;
+                --text-0: #111 !important; --text-1: #333 !important; --text-2: #666 !important;
+                --stroke: #ddd !important; --shadow-soft: none !important; --shadow-card: none !important; --shadow-card-hover: none !important;
+            }
+            body { background: #fff !important; }
+            .theme-toggle, .nav-dots, .download-fab, .ambient-glow { display: none !important; }
+            .snap-section { min-height: auto !important; padding: 20px 0 !important; page-break-inside: avoid; }
+            .experience-section { padding: 20px 0 !important; }
+            .snap-section::before, .snap-section::after, .experience-section::before { display: none !important; }
+            .hero-image { display: none !important; }
+            .product-card:hover, .media-card:hover { transform: none; box-shadow: none; }
+            a { color: #333 !important; }
+            .reveal-on-scroll { opacity: 1 !important; transform: none !important; }
+            .feature-tile { opacity: 0.4 !important; animation: none !important; }
+            .feature-tile--t1 { opacity: 1 !important; }
+            .milestone-marquee-inner { animation: none !important; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Theme Toggle -->
+    <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme">
+        <i data-lucide="sun" class="icon-sun"></i>
+        <i data-lucide="moon" class="icon-moon"></i>
+    </button>
+
+    <!-- Download CV -->
+    <a href="resume.html" download="resume.html" class="download-fab" id="downloadFab">
+        <i data-lucide="download"></i> Download CV
+    </a>
+
+    <!-- Nav Dots (desktop) -->
+    <nav class="nav-dots" id="navDots" aria-label="Section navigation">
+        <button class="nav-dot active" data-section="0" aria-label="Hero"></button>
+        <button class="nav-dot" data-section="1" aria-label="Growth"></button>
+        <button class="nav-dot" data-section="2" aria-label="Process"></button>
+        <button class="nav-dot" data-section="3" aria-label="Products"></button>
+        <button class="nav-dot" data-section="4" aria-label="Ecosystem"></button>
+        <button class="nav-dot" data-section="5" aria-label="Experience"></button>
+        <button class="nav-dot" data-section="6" aria-label="Skills"></button>
+        <button class="nav-dot" data-section="7" aria-label="Contact"></button>
+    </nav>
+
+    <!-- ============================================================
+         1. HERO
+         ============================================================ -->
+    <section class="snap-section" id="sec-0">
+        <div class="ambient-glow"></div>
+        <div class="snap-section__inner">
+            <div class="hero-layout">
+                <div class="hero-left">
+                    <div class="hero-profile reveal-on-scroll">
+                        <img src="jessechelinprofile.png" alt="Jesse Chelin" class="hero-avatar" loading="eager">
+                        <div>
+                            <h1 class="hero-name">Jesse Chelin</h1>
+                            <p class="hero-title">Product Lead &nbsp;|&nbsp; Payments & SaaS</p>
+                        </div>
+                    </div>
+                    <p class="hero-summary reveal-on-scroll">
+                        Product leader with 9+ years across payments, SaaS, and e-commerce &mdash; including 5 years owning Zeller's payments and POS ecosystem from early-stage to <strong>$2B+ in lifetime GPV</strong>. Built for lean, high-growth environments where you own the full stack of product work.
+                    </p>
+                    <div class="hero-contact reveal-on-scroll">
+                        <a href="mailto:jesse.chelin@gmail.com" class="pill" data-copy="jesse.chelin@gmail.com">
+                            <i data-lucide="mail"></i> jesse.chelin@gmail.com
+                            <span class="copy-toast">Copied</span>
+                        </a>
+                        <span class="pill" data-copy="0407 776 938">
+                            <i data-lucide="phone"></i> 0407 776 938
+                            <span class="copy-toast">Copied</span>
+                        </span>
+                        <span class="pill"><i data-lucide="map-pin"></i> Melbourne, VIC</span>
+                        <a href="https://www.linkedin.com/in/%F0%9F%A4%96-jesse-chelin-9300056/" target="_blank" rel="noopener noreferrer" class="pill">
+                            <i data-lucide="linkedin"></i> LinkedIn
+                        </a>
+                    </div>
+                    <div class="hero-badges reveal-on-scroll">
+                        <span class="badge">Payments</span>
+                        <span class="badge">B2B SaaS</span>
+                        <span class="badge">9+ Years</span>
+                    </div>
+                </div>
+                <div class="hero-image reveal-on-scroll">
+                    <img class="hero-terminal" src="https://a-us.storyblok.com/f/1006306/2747x2000/2c2b3bb60d/s-202408-terminal-t2-front-right-white-medium.png" alt="Zeller Terminal 2" loading="eager" width="480">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============================================================
+         2. JOURNEY
+         ============================================================ -->
+    <section class="snap-section" id="sec-1">
+        <div class="ambient-glow" style="animation-delay: -5s;"></div>
+        <div class="snap-section__inner">
+            <div class="kicker reveal-on-scroll">01 // The Journey</div>
+            <h2 class="section-heading reveal-on-scroll">From Product Marketing<br>to <em>Product Leadership</em></h2>
+            <p class="section-lead reveal-on-scroll">4 companies. One direction. Each move toward deeper ownership, higher complexity, and bigger commercial impact.</p>
+
+            <div class="growth-chart reveal-on-scroll">
+                <div class="growth-bar-row">
+                    <div class="growth-bar-label">
+                        <div class="growth-bar-label__role">Marketing Lead</div>
+                        <div class="growth-bar-label__company">Neto</div>
+                    </div>
+                    <div class="growth-bar-track">
+                        <div class="growth-bar-fill" style="width: 13%;">
+                            <span class="growth-bar-time">1.1 yrs</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="growth-bar-row">
+                    <div class="growth-bar-label">
+                        <div class="growth-bar-label__role">Marketing</div>
+                        <div class="growth-bar-label__company">Telstra</div>
+                    </div>
+                    <div class="growth-bar-track">
+                        <div class="growth-bar-fill" style="width: 12%;">
+                            <span class="growth-bar-time">1 yr</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="growth-bar-row">
+                    <div class="growth-bar-label">
+                        <div class="growth-bar-label__role">Product Manager</div>
+                        <div class="growth-bar-label__company">Whispir</div>
+                    </div>
+                    <div class="growth-bar-track">
+                        <div class="growth-bar-fill" style="width: 18%;">
+                            <span class="growth-bar-time">1.5 yrs</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="growth-bar-row growth-bar-row--zeller">
+                    <div class="growth-bar-label">
+                        <div class="growth-bar-label__role">Product Lead</div>
+                        <div class="growth-bar-label__company" style="color: var(--accent);">Zeller</div>
+                    </div>
+                    <div class="growth-bar-track">
+                        <div class="growth-bar-fill growth-bar-fill--accent" style="width: 57%;">
+                            <span class="growth-bar-time">4.7 yrs &amp; counting</span>
+                        </div>
+                        <!-- Milestone marquee attached to Zeller bar -->
+                        <div class="milestone-marquee">
+                            <div class="milestone-marquee-inner" id="milestoneTrack">
+                                <div class="milestone-chip">Stand-In<small>Nov '22</small></div>
+                                <div class="milestone-chip">LCR<small>Dec '22</small></div>
+                                <div class="milestone-chip">POS Connector<small>May '23</small></div>
+                                <div class="milestone-chip">Linkly Cloud<small>Jul '23</small></div>
+                                <div class="milestone-chip">Pay at Table<small>Jul '23</small></div>
+                                <div class="milestone-chip">TTP iOS<small>Oct '23</small></div>
+                                <div class="milestone-chip">Splits<small>Oct '23</small></div>
+                                <div class="milestone-chip">TTP Android<small>Feb '24</small></div>
+                                <div class="milestone-chip">Simphony<small>Mar '24</small></div>
+                                <div class="milestone-chip">Terminal 2<small>Aug '24</small></div>
+                                <div class="milestone-chip">Zeller POS<small>Aug '24</small></div>
+                                <div class="milestone-chip">Items 2.0<small>Aug '24</small></div>
+                                <div class="milestone-chip">POS on App<small>Oct '24</small></div>
+                                <div class="milestone-chip">SDKs<small>Feb '25</small></div>
+                                <div class="milestone-chip">Cash<small>Apr '25</small></div>
+                                <div class="milestone-chip">Service Charges<small>Aug '25</small></div>
+                                <div class="milestone-chip">MOTO<small>Sep '25</small></div>
+                                <!-- Duplicate set for seamless loop -->
+                                <div class="milestone-chip">Stand-In<small>Nov '22</small></div>
+                                <div class="milestone-chip">LCR<small>Dec '22</small></div>
+                                <div class="milestone-chip">POS Connector<small>May '23</small></div>
+                                <div class="milestone-chip">Linkly Cloud<small>Jul '23</small></div>
+                                <div class="milestone-chip">Pay at Table<small>Jul '23</small></div>
+                                <div class="milestone-chip">TTP iOS<small>Oct '23</small></div>
+                                <div class="milestone-chip">Splits<small>Oct '23</small></div>
+                                <div class="milestone-chip">TTP Android<small>Feb '24</small></div>
+                                <div class="milestone-chip">Simphony<small>Mar '24</small></div>
+                                <div class="milestone-chip">Terminal 2<small>Aug '24</small></div>
+                                <div class="milestone-chip">Zeller POS<small>Aug '24</small></div>
+                                <div class="milestone-chip">Items 2.0<small>Aug '24</small></div>
+                                <div class="milestone-chip">POS on App<small>Oct '24</small></div>
+                                <div class="milestone-chip">SDKs<small>Feb '25</small></div>
+                                <div class="milestone-chip">Cash<small>Apr '25</small></div>
+                                <div class="milestone-chip">Service Charges<small>Aug '25</small></div>
+                                <div class="milestone-chip">MOTO<small>Sep '25</small></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="growth-callout reveal-on-scroll">
+                <div class="growth-callout__number">100+</div>
+                <div class="growth-callout__text">
+                    Features and product enhancements shipped at Zeller across <strong>5 platforms</strong> &mdash; Terminal, Dashboard, App, SDKs, and Integrations &mdash; from standalone payment processing to a fully integrated multi-channel ecosystem.
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============================================================
+         3. HOW I SHIP (Ways of Working)
+         ============================================================ -->
+    <section class="snap-section" id="sec-2">
+        <div class="ambient-glow" style="animation-delay: -10s;"></div>
+        <div class="snap-section__inner">
+            <div class="kicker reveal-on-scroll">02 // How I Ship</div>
+            <h2 class="section-heading reveal-on-scroll">Working Smarter.<br><em>Not Harder.</em></h2>
+            <p class="section-lead reveal-on-scroll">No BA team, no dedicated researchers. I own the full product lifecycle &mdash; from the first signal to the post-launch retro. Here's the operating rhythm.</p>
+
+            <div class="wow-flow">
+                <div class="wow-step reveal-on-scroll">
+                    <div class="wow-step__icon"><i data-lucide="radar"></i></div>
+                    <div class="wow-step__title">Capture</div>
+                    <div class="wow-step__text">Merchant feedback, support tickets, usage data, competitor moves &mdash; synthesised into structured opportunities.</div>
+                </div>
+                <span class="wow-arrow">&rarr;</span>
+                <div class="wow-step reveal-on-scroll">
+                    <div class="wow-step__icon"><i data-lucide="filter"></i></div>
+                    <div class="wow-step__title">Prioritise</div>
+                    <div class="wow-step__text">RICE, Kano, commercial lens. Everything weighed against OKRs and business case. Kill the noise early.</div>
+                </div>
+                <span class="wow-arrow">&rarr;</span>
+                <div class="wow-step reveal-on-scroll">
+                    <div class="wow-step__icon"><i data-lucide="file-text"></i></div>
+                    <div class="wow-step__title">Define</div>
+                    <div class="wow-step__text">PRDs, edge cases, acceptance criteria. Design collaboration, engineering trade-offs, compliance reviews.</div>
+                </div>
+                <span class="wow-arrow">&rarr;</span>
+                <div class="wow-step reveal-on-scroll">
+                    <div class="wow-step__icon"><i data-lucide="rocket"></i></div>
+                    <div class="wow-step__title">Ship</div>
+                    <div class="wow-step__text">Progressive rollout, fast feedback cycles. Ship lean enough to learn, complete enough to trust.</div>
+                </div>
+                <span class="wow-arrow">&rarr;</span>
+                <div class="wow-step reveal-on-scroll">
+                    <div class="wow-step__icon"><i data-lucide="bar-chart-2"></i></div>
+                    <div class="wow-step__title">Learn</div>
+                    <div class="wow-step__text">Data-driven iteration. Support signal monitoring. Feed insights back into the next cycle.</div>
+                </div>
+            </div>
+
+            <div class="wow-principles reveal-on-scroll">
+                <div class="wow-principle">
+                    <div class="wow-principle__mark"><i data-lucide="check"></i></div>
+                    <span>I get into the details with engineering <strong>and</strong> zoom out to connect it to the strategy.</span>
+                </div>
+                <div class="wow-principle">
+                    <div class="wow-principle__mark"><i data-lucide="check"></i></div>
+                    <span>I write the PRD, check the corner cases, align compliance, and present to the exec team &mdash; same week.</span>
+                </div>
+                <div class="wow-principle">
+                    <div class="wow-principle__mark"><i data-lucide="check"></i></div>
+                    <span>OKRs, roadmaps, stakeholder narrative &mdash; aligned from pixel to P&amp;L.</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============================================================
+         4. KEY PRODUCTS + FEATURE TILES
+         ============================================================ -->
+    <section class="snap-section" id="sec-3">
+        <div class="ambient-glow" style="animation-delay: -15s;"></div>
+        <div class="snap-section__inner">
+            <div class="kicker reveal-on-scroll">03 // What I've Delivered</div>
+            <h2 class="section-heading reveal-on-scroll">Key Products <em>Shipped</em></h2>
+            <div class="products-grid">
+                <!-- POS Lite — VIDEO -->
+                <div class="product-card reveal-on-scroll">
+                    <div class="product-card__image-wrap">
+                        <video class="product-card__image" autoplay muted loop playsinline>
+                            <source src="https://a-us.storyblok.com/f/1006306/x/c4daaa0bb7/video-2408-t2-pos-launch-1920x1080.mp4" type="video/mp4">
+                        </video>
+                    </div>
+                    <div class="product-card__body">
+                        <div class="product-card__title">Zeller POS Lite</div>
+                        <div class="product-card__desc">Free cloud-based POS on Terminal 2 and Zeller App. Items, categories, modifiers, discounts, cash &amp; card.</div>
+                        <div class="product-card__stat">1,000+ merchants &middot; $15.4M GPV</div>
+                    </div>
+                </div>
+                <!-- Tap to Pay — VIDEO -->
+                <div class="product-card reveal-on-scroll">
+                    <div class="product-card__image-wrap">
+                        <video class="product-card__image" autoplay muted loop playsinline>
+                            <source src="https://a-us.storyblok.com/f/1006306/x/6b609af919/ttp-2507-landscape-midres-v2.mp4" type="video/mp4">
+                        </video>
+                    </div>
+                    <div class="product-card__body">
+                        <div class="product-card__title">Tap to Pay</div>
+                        <div class="product-card__desc">Contactless payments on smartphones. First Australian-born fintech on both iOS and Android.</div>
+                        <div class="product-card__stat">108% higher ATV than EFTPOS</div>
+                    </div>
+                </div>
+                <!-- Pay at Table — VIDEO -->
+                <div class="product-card reveal-on-scroll">
+                    <div class="product-card__image-wrap">
+                        <video class="product-card__image" autoplay muted loop playsinline>
+                            <source src="https://a-us.storyblok.com/f/1006306/x/bb07ea8a7b/video-2503-bill-at-table.mp4" type="video/mp4">
+                        </video>
+                    </div>
+                    <div class="product-card__body">
+                        <div class="product-card__title">Pay at Table</div>
+                        <div class="product-card__desc">Tableside payments for hospitality via Tevalis, H&amp;L, and Impos. Split by item, bill splitting.</div>
+                        <div class="product-card__stat">73% faster table turnover</div>
+                    </div>
+                </div>
+                <!-- Invoices — VIDEO -->
+                <div class="product-card reveal-on-scroll">
+                    <div class="product-card__image-wrap">
+                        <video class="product-card__image" autoplay muted loop playsinline>
+                            <source src="https://a-us.storyblok.com/f/1006306/x/f18f804c1e/video-2505-invoices-on-zeller-app-16x9.mp4" type="video/mp4">
+                        </video>
+                    </div>
+                    <div class="product-card__body">
+                        <div class="product-card__title">Zeller Invoices</div>
+                        <div class="product-card__desc">Online invoicing with Items 2.0, scheduling, SMS delivery, template customisation, and service charges.</div>
+                        <div class="product-card__stat">75%+ paid within 24 hours</div>
+                    </div>
+                </div>
+                <!-- Virtual Terminal — IMAGE -->
+                <div class="product-card reveal-on-scroll">
+                    <div class="product-card__image-wrap">
+                        <img class="product-card__image" src="https://www.myzeller.com/_next/image?url=https%3A%2F%2Fa-us.storyblok.com%2Ff%2F1006306%2F1916x1159%2F0340387e06%2Fzeller-virtual-terminal-process-payment.png%2Fm%2F&w=1080&q=75" alt="Virtual Terminal" loading="lazy">
+                    </div>
+                    <div class="product-card__body">
+                        <div class="product-card__title">Virtual Terminal &amp; Pay by Link</div>
+                        <div class="product-card__desc">Card-not-present for remote businesses. MOTO, hosted checkout, payment links.</div>
+                        <div class="product-card__stat">CNP payments without hardware</div>
+                    </div>
+                </div>
+                <!-- Developer Suite — SDK LOGOS -->
+                <div class="product-card reveal-on-scroll">
+                    <div class="product-card__image-wrap product-card__sdk-logos">
+                        <div class="sdk-scroll">
+                            <div class="sdk-scroll-track">
+                                <img src="https://a-us.storyblok.com/f/1006306/121x110/adfe55830d/react-native-logo-grey-700.svg" alt="React Native" class="sdk-logo">
+                                <img src="https://a-us.storyblok.com/f/1006306/107x108/c0e67f2db8/dotnet-logo-grey-470.svg" alt=".NET" class="sdk-logo">
+                                <img src="https://a-us.storyblok.com/f/1006306/121x121/b39dd40597/android-logo-grey-700.svg" alt="Android" class="sdk-logo">
+                                <img src="https://a-us.storyblok.com/f/1006306/121x121/115ea87a06/react-logo-grey-700.svg" alt="React" class="sdk-logo">
+                                <img src="https://a-us.storyblok.com/f/1006306/121x121/5a6828d0b1/apple-ios-logo-grey-700.svg" alt="iOS" class="sdk-logo">
+                                <!-- Duplicate for seamless loop -->
+                                <img src="https://a-us.storyblok.com/f/1006306/121x110/adfe55830d/react-native-logo-grey-700.svg" alt="React Native" class="sdk-logo">
+                                <img src="https://a-us.storyblok.com/f/1006306/107x108/c0e67f2db8/dotnet-logo-grey-470.svg" alt=".NET" class="sdk-logo">
+                                <img src="https://a-us.storyblok.com/f/1006306/121x121/b39dd40597/android-logo-grey-700.svg" alt="Android" class="sdk-logo">
+                                <img src="https://a-us.storyblok.com/f/1006306/121x121/115ea87a06/react-logo-grey-700.svg" alt="React" class="sdk-logo">
+                                <img src="https://a-us.storyblok.com/f/1006306/121x121/5a6828d0b1/apple-ios-logo-grey-700.svg" alt="iOS" class="sdk-logo">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="product-card__body">
+                        <div class="product-card__title">Developer Suite</div>
+                        <div class="product-card__desc">SDKs and APIs for franchises. .NET, React Native, Terminal SDKs powering 100+ POS integrations.</div>
+                        <div class="product-card__stat">Featured in The Australian</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Feature tile grid -->
+            <div class="feature-grid reveal-on-scroll">
+                <div class="feature-grid__header">
+                    <div class="feature-grid__count">100+</div>
+                    <div class="feature-grid__label">features shipped across 5 platforms &mdash; tap to explore</div>
+                </div>
+                <div class="feature-grid__tiles" id="featureTiles"></div>
+                <div class="feature-grid__selected" id="featureSelected"></div>
+                <div class="feature-grid__legend">
+                    <span><span class="legend-swatch legend-swatch--major"></span> Major Launch</span>
+                    <span><span class="legend-swatch legend-swatch--feature"></span> New Feature</span>
+                    <span><span class="legend-swatch legend-swatch--enh"></span> Enhancement</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============================================================
+         5. ECOSYSTEM
+         ============================================================ -->
+    <section class="snap-section" id="sec-4">
+        <div class="ambient-glow" style="animation-delay: -20s;"></div>
+        <div class="snap-section__inner">
+            <div class="kicker reveal-on-scroll">04 // What I Own</div>
+            <h2 class="section-heading reveal-on-scroll">Six Platforms. <em>One Payments Ecosystem.</em></h2>
+            <div class="eco-row reveal-on-scroll">
+                <div class="eco-box">
+                    <i data-lucide="monitor-smartphone" class="eco-box__icon"></i>
+                    <div class="eco-box__label">Terminal</div>
+                    <div class="eco-box__sub">Hardware</div>
+                </div>
+                <span class="eco-plus">+</span>
+                <div class="eco-box">
+                    <i data-lucide="layout-dashboard" class="eco-box__icon"></i>
+                    <div class="eco-box__label">Dashboard</div>
+                    <div class="eco-box__sub">Web</div>
+                </div>
+                <span class="eco-plus">+</span>
+                <div class="eco-box">
+                    <i data-lucide="smartphone" class="eco-box__icon"></i>
+                    <div class="eco-box__label">Zeller App</div>
+                    <div class="eco-box__sub">iOS / Android</div>
+                </div>
+                <span class="eco-plus">+</span>
+                <div class="eco-box">
+                    <i data-lucide="shopping-bag" class="eco-box__icon"></i>
+                    <div class="eco-box__label">Zeller POS</div>
+                    <div class="eco-box__sub">Terminal / App</div>
+                </div>
+                <span class="eco-plus">+</span>
+                <div class="eco-box">
+                    <i data-lucide="code-2" class="eco-box__icon"></i>
+                    <div class="eco-box__label">SDKs &amp; APIs</div>
+                    <div class="eco-box__sub">Developer</div>
+                </div>
+                <span class="eco-plus">+</span>
+                <div class="eco-box">
+                    <i data-lucide="plug" class="eco-box__icon"></i>
+                    <div class="eco-box__label">Integrations</div>
+                    <div class="eco-box__sub">600+ POS</div>
+                </div>
+            </div>
+            <div class="cap-grid">
+                <div class="cap-card reveal-on-scroll">
+                    <div class="cap-card__title">Card Present</div>
+                    <div class="cap-card__text">POS Lite, Tap to Pay, Pay at Table, split payments, tipping, surcharging</div>
+                </div>
+                <div class="cap-card reveal-on-scroll">
+                    <div class="cap-card__title">Card Not Present</div>
+                    <div class="cap-card__text">Virtual Terminal, Payment Links, Hosted Checkout, Invoices, MOTO</div>
+                </div>
+                <div class="cap-card reveal-on-scroll">
+                    <div class="cap-card__title">Platform</div>
+                    <div class="cap-card__text">Settlements, reporting, receipts, onboarding, analytics, fee management</div>
+                </div>
+            </div>
+            <div class="depth-grid">
+                <div>
+                    <h3 class="reveal-on-scroll">Integration Architecture</h3>
+                    <div class="depth-mini-grid">
+                        <div class="cap-card reveal-on-scroll"><div class="cap-card__title">Middleware</div><div class="cap-card__text">Linkly &mdash; 600+ POS systems</div></div>
+                        <div class="cap-card reveal-on-scroll"><div class="cap-card__title">Cloud API</div><div class="cap-card__text">Tevalis, H&amp;L, Impos, Triniteq</div></div>
+                        <div class="cap-card reveal-on-scroll"><div class="cap-card__title">Direct SDK</div><div class="cap-card__text">.NET, React Native, Terminal SDKs</div></div>
+                        <div class="cap-card reveal-on-scroll"><div class="cap-card__title">Accounting</div><div class="cap-card__text">Xero Payment Services, Bank Feeds</div></div>
+                    </div>
+                </div>
+                <div>
+                    <h3 class="reveal-on-scroll">Regulatory Fluency</h3>
+                    <ul class="role-list">
+                        <li class="reveal-on-scroll"><strong>RBA Standard No. 3</strong> &mdash; Dynamic surcharging compliance</li>
+                        <li class="reveal-on-scroll"><strong>Least Cost Routing</strong> &mdash; $10M+ monthly GPV optimised</li>
+                        <li class="reveal-on-scroll"><strong>PCI-DSS &amp; AUSTRAC</strong> &mdash; Encryption, monitoring, KYC</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============================================================
+         6. EXPERIENCE
+         ============================================================ -->
+    <div class="experience-section" id="sec-5">
+        <div class="ambient-glow" style="animation-delay: -25s;"></div>
+        <div class="snap-section__inner">
+            <div class="kicker reveal-on-scroll">05 // The Detail</div>
+            <h2 class="section-heading reveal-on-scroll">Professional Experience</h2>
+
+            <div class="role-block reveal-on-scroll">
+                <div class="role-header">
+                    <div class="role-title-line">Product Lead, Payments &nbsp;&middot;&nbsp; <span class="company">Zeller</span></div>
+                    <div class="role-date">Jun 2021 &ndash; Present</div>
+                </div>
+                <div class="role-location">Melbourne, VIC</div>
+                <p class="role-intro">End-to-end product ownership for Zeller's core payments and POS software ecosystem &mdash; spanning hardware terminals, web dashboard, mobile app, and developer SDKs &mdash; serving thousands of Australian SMBs. Operating in a lean startup environment with no dedicated BAs or research teams, I own the full product lifecycle: discovery, requirements, technical design collaboration, stakeholder management, delivery, and post-launch iteration.</p>
+
+                <div class="role-sub-heading">Product &amp; Revenue Impact</div>
+                <ul class="role-list">
+                    <li>Launched <strong>Zeller POS Lite</strong> from zero to <strong>1,000+ merchants</strong> and <strong>$15.4M in GPV</strong>, delivering a fully-integrated POS across dedicated terminal hardware and the Zeller App on merchants' own devices.</li>
+                    <li>Directed integration strategy across <strong>1,700+ merchants</strong> and <strong>100 POS systems</strong> via Linkly middleware, direct SDK, and cloud API partnerships &mdash; generating <strong>$1.5B in lifetime GPV</strong>.</li>
+                    <li>Led the product strategy for <strong>Tap to Pay (CPOC)</strong> on iOS and Android &mdash; the first Australian-born fintech to offer contactless smartphone payments, with average transaction values <strong>108% higher</strong> than traditional EFTPOS.</li>
+                    <li>Drove delivery of <strong>Least Cost Routing (LCR)</strong> to optimise scheme routing, processing <strong>$10M+ monthly GPV</strong> through the lowest-cost channels.</li>
+                    <li>Delivered <strong>Pay at Table / Bill at Table</strong> for hospitality (Tevalis, H&amp;L, Impos), accelerating table turnover by up to <strong>73%</strong>.</li>
+                </ul>
+
+                <div class="role-sub-heading">Reliability &amp; Regulatory Compliance</div>
+                <ul class="role-list">
+                    <li>Championed and drove delivery of <strong>Stand-In Processing</strong> for offline transaction continuity, retaining <strong>$186K+ in GPV</strong> during outages.</li>
+                    <li>Drove <strong>per-scheme fee and dynamic surcharging</strong> compliance aligned with RBA Standard No. 3.</li>
+                    <li>Identified and prioritised <strong>On-Screen Signature Verification</strong> to recover transactions from international cards without chip.</li>
+                </ul>
+
+                <div class="role-sub-heading">Platform &amp; User Experience</div>
+                <ul class="role-list">
+                    <li>Drove unification of cross-platform experiences across onboarding, invoicing, and reporting &mdash; delivering feature parity across terminal, web, and mobile.</li>
+                    <li>Aligned <strong>Zeller Invoices with Items 2.0</strong>, with <strong>75%+ of invoices paid within 24 hours</strong>.</li>
+                    <li>Delivered <strong>Transaction Details and Report Summary uplifts</strong> in direct response to merchant feedback.</li>
+                    <li>Shipped <strong>Virtual Terminal</strong> and <strong>Pay by Link</strong> for card-not-present transactions.</li>
+                </ul>
+
+                <div class="role-sub-heading">Team &amp; Process Leadership</div>
+                <ul class="role-list">
+                    <li>Recruited, mentored, and managed a <strong>product team of 4</strong>.</li>
+                    <li>Led the product function's migration to <strong>Jira Product Discovery</strong>.</li>
+                    <li>Championed adoption of <strong>Segment</strong> across all front-end platforms.</li>
+                    <li>Established the team's <strong>OKR process</strong>.</li>
+                </ul>
+            </div>
+
+            <div class="role-block reveal-on-scroll">
+                <div class="role-header">
+                    <div class="role-title-line">Product Manager &nbsp;&middot;&nbsp; <span class="company">Whispir</span></div>
+                    <div class="role-date">Jan 2020 &ndash; Jun 2021</div>
+                </div>
+                <div class="role-location">Melbourne, VIC</div>
+                <ul class="role-list">
+                    <li>Owned the platform roadmap for customer engagement workflows.</li>
+                    <li>Led an Agile squad to consistently exceed <strong>90% sprint goal achievement</strong>.</li>
+                    <li>Coordinated feature release planning across GTM teams.</li>
+                    <li>Contributed to early product&ndash;market fit for communications APIs.</li>
+                </ul>
+            </div>
+
+            <div class="role-block reveal-on-scroll">
+                <div class="role-header">
+                    <div class="role-title-line">Product Marketing Specialist &nbsp;&middot;&nbsp; <span class="company">Telstra</span></div>
+                    <div class="role-date">Jan 2018 &ndash; Nov 2018</div>
+                </div>
+                <div class="role-location">Melbourne, VIC</div>
+                <ul class="role-list">
+                    <li>Designed GTM roadmaps, managed releases, and enabled sales channels for enterprise communication products.</li>
+                    <li>Defined and tracked market segmentation, customer success, and adoption metrics.</li>
+                    <li>Managed complex stakeholder relationships and influenced senior leaders.</li>
+                </ul>
+            </div>
+
+            <div class="role-block reveal-on-scroll">
+                <div class="role-header">
+                    <div class="role-title-line">Product Marketing Lead &nbsp;&middot;&nbsp; <span class="company">Neto E-Commerce Solutions</span></div>
+                    <div class="role-date">Dec 2016 &ndash; Jan 2018</div>
+                </div>
+                <div class="role-location">Brisbane, QLD</div>
+                <ul class="role-list">
+                    <li>Owned positioning, messaging, and monetisation strategy for an e-commerce platform.</li>
+                    <li>Led customer research programs and competitive analysis.</li>
+                    <li>Co-ordinated go-to-market launches and sales enablement.</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <!-- ============================================================
+         7. SKILLS + MEDIA
+         ============================================================ -->
+    <section class="snap-section" id="sec-6">
+        <div class="ambient-glow" style="animation-delay: -30s;"></div>
+        <div class="snap-section__inner">
+            <div class="kicker reveal-on-scroll">06 // The Toolkit</div>
+            <h2 class="section-heading reveal-on-scroll">Skills &amp; <em>Recognition</em></h2>
+            <div class="split-layout" style="margin-top: 24px;">
+                <div>
+                    <div class="skills-category reveal-on-scroll">
+                        <div class="skills-category__label"><i data-lucide="compass"></i> Product Leadership</div>
+                        <div class="skills-pills">
+                            <span class="skill-pill">Product Vision & Strategy</span>
+                            <span class="skill-pill">Team Building & Mentoring</span>
+                            <span class="skill-pill">OKR Planning</span>
+                            <span class="skill-pill">Commercial Acumen</span>
+                            <span class="skill-pill">Go-to-Market Strategy</span>
+                            <span class="skill-pill">B2B & B2C PM</span>
+                        </div>
+                    </div>
+                    <div class="skills-category reveal-on-scroll">
+                        <div class="skills-category__label"><i data-lucide="kanban"></i> Product Management</div>
+                        <div class="skills-pills">
+                            <span class="skill-pill">Roadmap Ownership</span>
+                            <span class="skill-pill">Agile/Scrum (SAFe&reg; 5)</span>
+                            <span class="skill-pill">Product-Led Growth</span>
+                            <span class="skill-pill">Experimentation & Data</span>
+                            <span class="skill-pill">Stakeholder Management</span>
+                        </div>
+                    </div>
+                    <div class="skills-category reveal-on-scroll">
+                        <div class="skills-category__label"><i data-lucide="credit-card"></i> Domain Expertise</div>
+                        <div class="skills-pills">
+                            <span class="skill-pill">Payments Architecture</span>
+                            <span class="skill-pill">Payment Rails (NPP, BECS, BPAY)</span>
+                            <span class="skill-pill">Regulatory (RBA, AUSTRAC, PCI-DSS)</span>
+                            <span class="skill-pill">Surcharging & Scheme Fees</span>
+                            <span class="skill-pill">Integration Ecosystems</span>
+                        </div>
+                    </div>
+                    <div class="skills-category reveal-on-scroll">
+                        <div class="skills-category__label"><i data-lucide="terminal"></i> Technical & Analytics</div>
+                        <div class="skills-pills">
+                            <span class="skill-pill">API-First Strategy</span>
+                            <span class="skill-pill">System Design</span>
+                            <span class="skill-pill">Atlassian Suite</span>
+                            <span class="skill-pill">Segment</span>
+                            <span class="skill-pill">Mixpanel</span>
+                            <span class="skill-pill">Power BI</span>
+                            <span class="skill-pill">Figma</span>
+                            <span class="skill-pill">AI-Assisted Workflows</span>
+                        </div>
+                    </div>
+                    <div class="awards-row reveal-on-scroll">
+                        <div class="award-item">
+                            <div class="award-item__icon"><i data-lucide="trophy"></i></div>
+                            <div>
+                                <div class="award-item__text"><strong>Employee of the Year</strong> &mdash; 2017 &amp; 2016</div>
+                                <div class="award-item__meta">Neto eCommerce</div>
+                            </div>
+                        </div>
+                        <div class="award-item">
+                            <div class="award-item__icon"><i data-lucide="badge-check"></i></div>
+                            <div>
+                                <div class="award-item__text"><strong>Certified SAFe&reg; 5 Agilist</strong></div>
+                                <div class="award-item__meta">Scaled Agile, Inc.</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div>
+                    <h3 style="font-family: var(--font-sans); font-size: 18px; font-weight: 600; color: var(--text-0); margin-bottom: 16px;" class="reveal-on-scroll">In the Media</h3>
+                    <div class="media-card reveal-on-scroll">
+                        <div class="media-card__icon"><i data-lucide="newspaper"></i></div>
+                        <div>
+                            <div class="media-card__quote">"Zeller launches new developer suite, targeting the franchise market, to take on Stripe, Adyen"</div>
+                            <div class="media-card__source">The Australian &middot; Sep 2025</div>
+                        </div>
+                    </div>
+                    <div class="media-card reveal-on-scroll">
+                        <div class="media-card__icon"><i data-lucide="newspaper"></i></div>
+                        <div>
+                            <div class="media-card__quote">"Zeller unveils Tap to Pay on Android for businesses and consumers"</div>
+                            <div class="media-card__source">IBS Intelligence &middot; Feb 2024</div>
+                        </div>
+                    </div>
+                    <div class="media-card reveal-on-scroll">
+                        <div class="media-card__icon"><i data-lucide="newspaper"></i></div>
+                        <div>
+                            <div class="media-card__quote">"Meet the new Zeller Terminal 2"</div>
+                            <div class="media-card__source">Australian Hotelier &middot; Oct 2024</div>
+                        </div>
+                    </div>
+                    <div class="media-card reveal-on-scroll">
+                        <div class="media-card__icon"><i data-lucide="newspaper"></i></div>
+                        <div>
+                            <div class="media-card__quote">"Zeller Payments now accepted with Apple Tap to Pay"</div>
+                            <div class="media-card__source">EFTM &middot; Oct 2023</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============================================================
+         8. CONTACT
+         ============================================================ -->
+    <section class="snap-section" id="sec-7">
+        <div class="ambient-glow" style="animation-delay: -35s;"></div>
+        <div class="snap-section__inner">
+            <div class="contact-center">
+                <div class="kicker reveal-on-scroll" style="justify-content: center;">07 // What's Next</div>
+                <h2 class="section-heading reveal-on-scroll" style="text-align: center;">Let's Talk</h2>
+                <p class="section-lead reveal-on-scroll" style="text-align: center; max-width: 560px; margin: 0 auto 16px;">
+                    I'm at my best when there's genuine complexity, a strong engineering culture, and room to have real impact. Actively exploring new opportunities.
+                </p>
+                <div style="display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; margin-bottom: 32px;" class="reveal-on-scroll">
+                    <span class="badge">Ownership &amp; Complexity</span>
+                    <span class="badge">Strong Engineering Culture</span>
+                    <span class="badge">Lean Over Large</span>
+                    <span class="badge">Beyond Payments</span>
+                </div>
+                <div class="contact-grid reveal-on-scroll">
+                    <div class="contact-item">
+                        <div class="contact-item__label">Email</div>
+                        <div class="contact-item__value"><a href="mailto:jesse.chelin@gmail.com">jesse.chelin@gmail.com</a></div>
+                    </div>
+                    <div class="contact-item">
+                        <div class="contact-item__label">Phone</div>
+                        <div class="contact-item__value">0407 776 938</div>
+                    </div>
+                    <div class="contact-item">
+                        <div class="contact-item__label">LinkedIn</div>
+                        <div class="contact-item__value"><a href="https://www.linkedin.com/in/%F0%9F%A4%96-jesse-chelin-9300056/" target="_blank">Jesse Chelin</a></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============================================================
+         SCRIPTS
+         ============================================================ -->
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        lucide.createIcons();
+
+        // Theme toggle
+        var toggle = document.getElementById('themeToggle');
+        var root = document.documentElement;
+        var saved = localStorage.getItem('portfolio-theme');
+        if (saved) root.setAttribute('data-theme', saved);
+        toggle.addEventListener('click', function() {
+            var next = root.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+            root.setAttribute('data-theme', next);
+            localStorage.setItem('portfolio-theme', next);
+            lucide.createIcons();
+        });
+
+        // Copy pills
+        document.querySelectorAll('.pill[data-copy]').forEach(function(pill) {
+            pill.addEventListener('click', function(e) {
+                e.preventDefault();
+                var text = this.getAttribute('data-copy');
+                if (!text) return;
+                navigator.clipboard.writeText(text).then(function() {
+                    var toast = pill.querySelector('.copy-toast');
+                    if (toast) { toast.classList.add('show'); setTimeout(function() { toast.classList.remove('show'); }, 1500); }
+                }).catch(function() {});
+            });
+        });
+
+        // Scroll reveal
+        if ('IntersectionObserver' in window) {
+            var obs = new IntersectionObserver(function(entries) {
+                entries.forEach(function(e) {
+                    if (e.isIntersecting) { e.target.classList.add('visible'); obs.unobserve(e.target); }
+                });
+            }, { threshold: 0.06, rootMargin: '0px 0px -30px 0px' });
+            document.querySelectorAll('.reveal-on-scroll, .kicker').forEach(function(el) { obs.observe(el); });
+        } else {
+            document.querySelectorAll('.reveal-on-scroll, .kicker').forEach(function(el) { el.classList.add('visible'); });
+        }
+
+        // Nav dots
+        var sections = document.querySelectorAll('[id^="sec-"]');
+        var dots = document.querySelectorAll('.nav-dot');
+        dots.forEach(function(dot) {
+            dot.addEventListener('click', function() {
+                var idx = parseInt(this.getAttribute('data-section'), 10);
+                if (sections[idx]) sections[idx].scrollIntoView({ behavior: 'smooth' });
+            });
+        });
+        if ('IntersectionObserver' in window) {
+            var navObs = new IntersectionObserver(function(entries) {
+                entries.forEach(function(entry) {
+                    if (entry.isIntersecting) {
+                        var idx = Array.prototype.indexOf.call(sections, entry.target);
+                        dots.forEach(function(d, i) { d.classList.toggle('active', i === idx); });
+                    }
+                });
+            }, { threshold: 0.35 });
+            sections.forEach(function(s) { navObs.observe(s); });
+        }
+
+        // Feature tile grid — from Jira Product Discovery export with emojis
+        var features = [
+            // Nov-Dec 2022
+            {n:'Stand-In Processing',t:1,e:'\u{1F6E1}'},{n:'Least Cost Routing',t:1,e:'\u{1F4B3}'},{n:'Receipt Flow Redesign',t:3,e:'\u{1F9FE}'},
+            // Jan-May 2023
+            {n:'Network Screen Uplift',t:3,e:'\u{1F310}'},{n:'Settlement Terminology',t:3,e:'\u{1F4B0}'},{n:'POS Connector',t:1,e:'\u{1F517}'},
+            // Jul 2023
+            {n:'Cloud POS via Linkly',t:1,e:'\u2601'},{n:'H&L Pay at Table',t:1,e:'\u{1F37D}'},{n:'Dynamic Refund Control',t:1,e:'\u{1F512}'},
+            {n:'Settlement Linked Txns',t:3,e:'\u{1F4B0}'},{n:'Report Access Controls',t:2,e:'\u{1F4CA}'},{n:'Txn Export Uplift',t:3,e:'\u{1F4E4}'},
+            // Aug 2023
+            {n:'Refund PIN',t:3,e:'\u{1F512}'},{n:'Terminal Geofencing',t:2,e:'\u{1F4CD}'},
+            // Oct 2023
+            {n:'Tap to Pay iOS',t:1,e:'\u{1F4F1}'},{n:'Split by Amount',t:1,e:'\u2702'},{n:'Split by People',t:1,e:'\u2702'},
+            {n:'Tip Flow Uplift',t:3,e:'\u{1F4B5}'},{n:'Site & Devices Uplift',t:3,e:'\u{1F4CD}'},{n:'Contact on Terminal',t:1,e:'\u{1F464}'},
+            {n:'Payment Module',t:1,e:'\u{1F4E6}'},{n:'Filter Reports by Site',t:2,e:'\u{1F4CA}'},{n:'Custom Screensaver',t:2,e:'\u{1F5BC}'},
+            {n:'Payment Results Uplift',t:3,e:'\u2705'},
+            // Dec 2023
+            {n:'Uplift Payment Screens',t:3,e:'\u2728'},
+            // Jan-Feb 2024
+            {n:'Ethernet Phase 0+1',t:2,e:'\u26A1'},{n:'Android Tap to Pay',t:1,e:'\u{1F47D}'},
+            // Mar 2024
+            {n:'Oracle Simphony',t:1,e:'\u{1FAC0}'},{n:'POS Connector 1:1',t:3,e:'\u{1F517}'},{n:'POS Lite Settings',t:2,e:'\u2699'},
+            {n:'Segment for Payments',t:3,e:'\u{1F4C8}'},
+            // Apr-Jul 2024
+            {n:'Ethernet Dashboard',t:3,e:'\u{1F310}'},{n:'Settlement Drawer',t:3,e:'\u{1F4B0}'},
+            {n:'Per Scheme Fees',t:1,e:'\u{1F4A1}'},{n:'Report Summary Uplift',t:3,e:'\u{1F4C8}'},
+            // Aug 2024 — Terminal 2 + POS megalaunch
+            {n:'Terminal 2 Launch',t:1,e:'\u{1F680}'},{n:'Zeller POS',t:1,e:'\u{1F6D2}'},{n:'Items & Categories',t:1,e:'\u{1F6CD}'},
+            {n:'Variants & Attributes',t:1,e:'\u{1F500}'},{n:'Modifier Sets',t:1,e:'\u2795'},{n:'Discount Management',t:1,e:'\u{1F239}'},
+            {n:'POS Sales List',t:1,e:'\u{1F4DD}'},{n:'Itemised Receipts',t:2,e:'\u{1F9FE}'},{n:'Dark Mode Terminal',t:3,e:'\u{1F31A}'},
+            {n:'T2 Launch Comms',t:3,e:'\u{1F4E3}'},{n:'Standin 2.0 Visa',t:1,e:'\u{1F4AA}'},{n:'QR Code Receipts',t:2,e:'\u{1F4F8}'},
+            {n:'Discounts in POS',t:2,e:'\u{1F239}'},
+            // Sep-Oct 2024
+            {n:'POS Dark Mode',t:3,e:'\u{1F31A}'},{n:'POS First Use T2',t:2,e:'\u{1F947}'},
+            {n:'Items Reports',t:1,e:'\u{1F4C8}'},{n:'POS Lite on App',t:1,e:'\u{1F6D2}'},{n:'POS First Use App',t:2,e:'\u{1F947}'},
+            {n:'Turn Off LED',t:3,e:'\u{1F4A1}'},{n:'T2 Linkly On-Prem',t:2,e:'\u{1F517}'},
+            // Nov-Dec 2024
+            {n:'Transaction Events',t:3,e:'\u{1F4AA}'},{n:'Force Fleet Standin',t:1,e:'\u{1F4AA}'},
+            {n:'Category Search',t:3,e:'\u{1F50D}'},{n:'Union Pay TTP',t:1,e:'\u{1F1E8}\u{1F1F3}'},
+            // Jan-Feb 2025
+            {n:'Bill at Table IMPOS',t:1,e:'\u{1F37D}'},{n:'TTP Quick Setup',t:2,e:'\u26A1'},
+            {n:'Invoices Items 2.0',t:1,e:'\u{1F4D1}'},{n:'POS Sales Details',t:1,e:'\u{1F4CB}'},{n:'POS Receipts',t:2,e:'\u{1F9FE}'},
+            {n:'Printed Receipt Uplift',t:3,e:'\u{1F5A8}'},{n:'Txn Details Redesign',t:3,e:'\u{1F4B3}'},{n:'Invoice Dates',t:3,e:'\u{1F5D3}'},
+            {n:'SDK React Native',t:1,e:'\u{1F4DF}'},{n:'SDK React',t:2,e:'\u{1F4DF}'},{n:'IMPOS Pay at Table',t:1,e:'\u{1F37D}'},
+            // Mar-Apr 2025
+            {n:'POS Lite Settings v2',t:2,e:'\u2699'},
+            {n:'Zero Dollar Sale',t:1,e:'\u0030\u20E3'},{n:'Cash Payments',t:1,e:'\u{1F4B5}'},{n:'Cash Rounding',t:3,e:'\u{1F9EE}'},
+            // May-Jul 2025
+            {n:'Union Pay CNP',t:1,e:'\u{1F1E8}\u{1F1F3}'},{n:'Txn Export v2',t:3,e:'\u{1F4E4}'},{n:'POS Site Settings',t:2,e:'\u{1F4CD}'},
+            {n:'Tevalis Pay at Table',t:1,e:'\u{1F37D}'},{n:'On-Screen Signature',t:2,e:'\u270D'},
+            // Aug 2025
+            {n:'Service Charges',t:1,e:'\u{1F4B2}'},{n:'Split by Item',t:1,e:'\u{1F37D}'},{n:'Item Images Receipts',t:2,e:'\u{1F305}'},
+            // Sep 2025
+            {n:'SDK .NET',t:2,e:'\u{1F4DF}'},{n:'Invoice Surcharging',t:3,e:'\u{1F4B8}'},{n:'Integrated MOTO',t:2,e:'\u260E'},
+            {n:'POS Unmatched Refunds',t:1,e:'\u21A9'},{n:'Multi-Entity Terminal',t:2,e:'\u{1F3E2}'},
+            {n:'Help Centre Redesign',t:3,e:'\u{1F198}'},{n:'T2 Linkly Cloud',t:2,e:'\u2601'},
+            // Oct-Nov 2025
+            {n:'Union Pay Terminal',t:1,e:'\u{1F1E8}\u{1F1F3}'},{n:'International Fees',t:2,e:'\u{1F30D}'},{n:'GBP Support',t:1,e:'\u{1F1EC}\u{1F1E7}'},
+            {n:'VAT Support',t:1,e:'\u{1F1EC}\u{1F1E7}'},{n:'Invoice Settlements',t:3,e:'\u{1F3E6}'},{n:'POS Localisation',t:3,e:'\u{1F1EC}\u{1F1E7}'},
+            // Infrastructure
+            {n:'Settlement Rewrite',t:1,e:'\u{1F4B0}'},{n:'Txn Details Uplift',t:2,e:'\u{1F50D}'},
+            {n:'Txn Export Fields',t:3,e:'\u{1F4E4}'},{n:'Invoicing Data',t:3,e:'\u{1F4C4}'},
+            {n:'Contacts on App',t:2,e:'\u{1F464}'},{n:'Contacts on Terminal',t:2,e:'\u{1F464}'}
+        ];
+
+        var tilesEl = document.getElementById('featureTiles');
+        var selectedEl = document.getElementById('featureSelected');
+        if (tilesEl) {
+            features.forEach(function(f, i) {
+                var tile = document.createElement('div');
+                tile.className = 'feature-tile feature-tile--t' + f.t;
+                tile.setAttribute('data-name', f.n);
+                tile.textContent = f.e;
+                tile.style.animationDelay = (i * 15) + 'ms';
+                tilesEl.appendChild(tile);
+            });
+
+            // Click/tap support — show feature name
+            tilesEl.addEventListener('click', function(e) {
+                var tile = e.target.closest('.feature-tile');
+                document.querySelectorAll('.feature-tile.active').forEach(function(d) { d.classList.remove('active'); });
+                if (tile) {
+                    tile.classList.add('active');
+                    if (selectedEl) {
+                        selectedEl.textContent = tile.getAttribute('data-name');
+                        selectedEl.classList.add('show');
+                    }
+                }
+            });
+            // Dismiss on outside click
+            document.addEventListener('click', function(e) {
+                if (!e.target.closest('.feature-grid__tiles')) {
+                    document.querySelectorAll('.feature-tile.active').forEach(function(d) { d.classList.remove('active'); });
+                    if (selectedEl) selectedEl.classList.remove('show');
+                }
+            });
+        }
+    });
+    </script>
+</body>
+</html>
