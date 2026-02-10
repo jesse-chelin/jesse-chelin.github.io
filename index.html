@@ -53,7 +53,7 @@
            RESET
            ================================================ */
         *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
-        html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
+        html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; overflow-x: clip; }
         body {
             font-family: var(--font-sans); font-size: 16px; line-height: 1.6;
             color: var(--text-1); background: var(--bg-0);
@@ -498,7 +498,7 @@
         .experience-section {
             scroll-snap-align: start; padding: 96px 48px;
             background: var(--bg-3); position: relative;
-            transition: background var(--transition);
+            transition: background var(--transition); overflow: hidden;
         }
         .experience-section::before {
             content: ''; position: absolute; inset: -64px;
@@ -609,6 +609,7 @@
            ================================================ */
         @media (max-width: 768px) {
             .snap-section { padding: 48px 20px; min-height: auto; }
+            .snap-section::before, .experience-section::before { inset: 0; }
             .experience-section { padding: 48px 20px; }
             .hero-name { font-size: 36px; }
             .hero-avatar { width: 96px; height: 96px; }
