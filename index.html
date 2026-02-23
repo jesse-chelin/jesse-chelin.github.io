@@ -3993,9 +3993,10 @@
                 const btn = document.getElementById("downloadBtn");
                 if (!btn) return;
                 btn.addEventListener("click", () => {
-                    // Replace with actual PDF link:
-                    // window.location.href = 'Jesse Chelin - Resume 2026.pdf';
-                    window.print();
+                    const link = document.createElement('a');
+                    link.href = 'Jesse Chelin - Resume 2026.pdf';
+                    link.download = 'Jesse Chelin - Resume 2026.pdf';
+                    link.click();
                 });
             }
 
